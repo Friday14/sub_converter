@@ -1,0 +1,1303 @@
+﻿1
+00:00:06,722 --> 00:00:09,451
+- Let's talk about code
+reviews for a second.
+
+2
+00:00:09,451 --> 00:00:13,600
+Let's push the boundary on
+optimizing for correctness,
+
+3
+00:00:13,600 --> 00:00:15,798
+because without a measuring stick
+
+4
+00:00:15,798 --> 00:00:18,472
+how do we really know we're doing things
+
+5
+00:00:18,472 --> 00:00:20,051
+and making the best decisions?
+
+6
+00:00:20,051 --> 00:00:22,752
+I told you that everything
+comes with a cost.
+
+7
+00:00:22,752 --> 00:00:24,410
+Nothing is free.
+
+8
+00:00:24,410 --> 00:00:27,998
+What is the cost for taking
+for the benefit that we need?
+
+9
+00:00:27,998 --> 00:00:29,861
+How do we know this piece of code we wrote
+
+10
+00:00:29,861 --> 00:00:32,432
+is optimized for correctness first?
+
+11
+00:00:32,432 --> 00:00:33,928
+Here's my measuring stick.
+
+12
+00:00:33,928 --> 00:00:37,320
+As we start looking at code
+and start talking about code,
+
+13
+00:00:37,320 --> 00:00:40,160
+this is gonna come up over
+and over and over again.
+
+14
+00:00:40,160 --> 00:00:41,840
+I'm going to stress it.
+
+15
+00:00:41,840 --> 00:00:45,981
+And our number one priority
+must always be integrity.
+
+16
+00:00:45,981 --> 00:00:48,291
+Integrity must be first.
+
+17
+00:00:48,291 --> 00:00:51,791
+In fact, Go puts integrity above all else.
+
+18
+00:00:53,243 --> 00:00:56,611
+It is built deep into the language.
+
+19
+00:00:56,611 --> 00:00:58,552
+Now here's another buzzword, integrity.
+
+20
+00:00:58,552 --> 00:01:00,941
+I mean, what does integrity mean?
+
+21
+00:01:00,941 --> 00:01:04,683
+What integrity means is
+that we become serious
+
+22
+00:01:04,683 --> 00:01:07,312
+about writing code that is reliable.
+
+23
+00:01:07,312 --> 00:01:09,763
+Let me ask you a question.
+
+24
+00:01:09,763 --> 00:01:12,000
+Here's our cell phone, here it is.
+
+25
+00:01:12,000 --> 00:01:14,531
+If this cell phone stopped working,
+
+26
+00:01:14,531 --> 00:01:17,432
+I mean, just stopped working for an hour,
+
+27
+00:01:17,432 --> 00:01:19,720
+just an hour, across the United States,
+
+28
+00:01:19,720 --> 00:01:21,603
+how many people are gonna die?
+
+29
+00:01:21,603 --> 00:01:23,259
+It's a serious question.
+
+30
+00:01:23,259 --> 00:01:25,973
+The answer is definitely not zero.
+
+31
+00:01:25,973 --> 00:01:29,192
+Our lives depend on technology,
+
+32
+00:01:29,192 --> 00:01:30,653
+and the software we write,
+
+33
+00:01:30,653 --> 00:01:32,573
+whether you want to believe it or not,
+
+34
+00:01:32,573 --> 00:01:37,141
+is a part of that fabric that's
+holding society together.
+
+35
+00:01:37,141 --> 00:01:40,861
+We can no longer not take
+what we do seriously.
+
+36
+00:01:40,861 --> 00:01:42,861
+We don't need license for what we do.
+
+37
+00:01:42,861 --> 00:01:45,363
+We're not regulated, we make mistakes,
+
+38
+00:01:45,363 --> 00:01:47,530
+and it's, ah, no, no more.
+
+39
+00:01:48,638 --> 00:01:52,419
+We have to, we have to
+take reliability seriously.
+
+40
+00:01:52,419 --> 00:01:53,812
+It starts with us.
+
+41
+00:01:53,812 --> 00:01:56,206
+We have to remember how serious
+
+42
+00:01:56,206 --> 00:01:58,688
+the software that we're writing is.
+
+43
+00:01:58,688 --> 00:02:01,166
+Now, for me, integrity
+comes in two pieces,
+
+44
+00:02:01,166 --> 00:02:04,189
+a micro level and a macro level.
+
+45
+00:02:04,189 --> 00:02:05,437
+At the micro-level,
+
+46
+00:02:05,437 --> 00:02:07,887
+integrity is about every read,
+
+47
+00:02:07,887 --> 00:02:11,648
+every write, every memory
+allocation that we perform
+
+48
+00:02:11,648 --> 00:02:14,277
+being accurate, consistent, and efficient.
+
+49
+00:02:14,277 --> 00:02:16,328
+I mean, think about this for a second.
+
+50
+00:02:16,328 --> 00:02:18,069
+Every line of code we write
+
+51
+00:02:18,069 --> 00:02:20,189
+really just does one
+of these three things.
+
+52
+00:02:20,189 --> 00:02:21,477
+We either allocate memory,
+
+53
+00:02:21,477 --> 00:02:23,888
+we read memory, or we write memory.
+
+54
+00:02:23,888 --> 00:02:26,037
+Integrity is about making sure that all,
+
+55
+00:02:26,037 --> 00:02:27,947
+one of those three
+
+56
+00:02:27,947 --> 00:02:31,088
+operations are accurate, consistent,
+
+57
+00:02:31,088 --> 00:02:32,957
+and efficient, because when they're not,
+
+58
+00:02:32,957 --> 00:02:34,339
+we have an integrity issue,
+
+59
+00:02:34,339 --> 00:02:37,157
+we're corrupting data,
+things have to shut down.
+
+60
+00:02:37,157 --> 00:02:39,077
+Think about what I just said.
+
+61
+00:02:39,077 --> 00:02:40,688
+We're corrupting data.
+
+62
+00:02:40,688 --> 00:02:43,018
+And that's the other part of this.
+
+63
+00:02:43,018 --> 00:02:46,077
+Everything we do, every problem we solve,
+
+64
+00:02:46,077 --> 00:02:48,563
+everything we think about
+
+65
+00:02:48,563 --> 00:02:52,959
+boils down to becoming a
+data transformation problem.
+
+66
+00:02:52,959 --> 00:02:55,936
+We have some input, and
+we produce some output.
+
+67
+00:02:55,936 --> 00:02:58,075
+Everything we do, every function we write,
+
+68
+00:02:58,075 --> 00:02:59,763
+every method we write
+
+69
+00:02:59,763 --> 00:03:01,790
+is a data transformation.
+
+70
+00:03:01,790 --> 00:03:03,246
+Everything.
+
+71
+00:03:03,246 --> 00:03:06,555
+So integrity also means that
+every data transformation
+
+72
+00:03:06,555 --> 00:03:10,657
+that we have to perform, every
+problem we have to solve,
+
+73
+00:03:10,657 --> 00:03:12,406
+must also be accurate,
+
+74
+00:03:12,406 --> 00:03:14,489
+consistent and efficient.
+
+75
+00:03:16,736 --> 00:03:20,814
+Now, at a macro level, how do we do this?
+
+76
+00:03:20,814 --> 00:03:23,383
+Well, there's two big things.
+
+77
+00:03:23,383 --> 00:03:26,454
+One, we have to write less code.
+
+78
+00:03:26,454 --> 00:03:29,164
+You know, NASA or, there've been studies.
+
+79
+00:03:29,164 --> 00:03:30,978
+There've been studies on
+
+80
+00:03:30,978 --> 00:03:33,464
+what the average developer
+produces in bugs,
+
+81
+00:03:33,464 --> 00:03:37,315
+depending on the number of
+lines of code they write.
+
+82
+00:03:37,315 --> 00:03:38,898
+It's staggering how
+
+83
+00:03:40,173 --> 00:03:44,166
+the average developer
+produces so many bugs.
+
+84
+00:03:44,166 --> 00:03:46,352
+We have to write less code.
+
+85
+00:03:46,352 --> 00:03:48,376
+Less code means less bugs.
+
+86
+00:03:48,376 --> 00:03:50,825
+Error handling is also critical
+
+87
+00:03:50,825 --> 00:03:52,492
+to everything we do.
+
+88
+00:03:54,579 --> 00:03:56,395
+I want you to think about this.
+
+89
+00:03:56,395 --> 00:03:59,456
+There is a study that was done,
+
+90
+00:03:59,456 --> 00:04:01,758
+looking at several big software products.
+
+91
+00:04:01,758 --> 00:04:04,496
+Cassandra, MapReduce, Redis.
+
+92
+00:04:04,496 --> 00:04:06,968
+Technologies you probably know about.
+
+93
+00:04:06,968 --> 00:04:10,598
+They did this study of
+48 critical failures.
+
+94
+00:04:10,598 --> 00:04:12,215
+And what did they discover?
+
+95
+00:04:12,215 --> 00:04:15,266
+They discovered that 92% of that 48,
+
+96
+00:04:15,266 --> 00:04:17,888
+92% could have been avoided,
+
+97
+00:04:17,888 --> 00:04:21,888
+if the error handling was taken seriously,
+
+98
+00:04:21,888 --> 00:04:26,055
+if the error handling became
+part of their priority.
+
+99
+00:04:26,968 --> 00:04:28,387
+And this is a key.
+
+100
+00:04:28,387 --> 00:04:30,987
+Error handling cannot be an exception.
+
+101
+00:04:30,987 --> 00:04:32,796
+It must be part of the main code.
+
+102
+00:04:32,796 --> 00:04:35,336
+It is part of the code you're writing.
+
+103
+00:04:35,336 --> 00:04:37,027
+Go doesn't exception handling,
+
+104
+00:04:37,027 --> 00:04:38,686
+Go doesn't have that try-catch.
+
+105
+00:04:38,686 --> 00:04:41,067
+Go doesn't say, we'll deal
+with errors over here.
+
+106
+00:04:41,067 --> 00:04:43,150
+No, if integrity matters,
+
+107
+00:04:44,566 --> 00:04:47,545
+then error handling is not an exception.
+
+108
+00:04:47,545 --> 00:04:50,006
+It's gotta be part of your main code.
+
+109
+00:04:50,006 --> 00:04:52,046
+I'm sorry if you feel that maybe
+
+110
+00:04:52,046 --> 00:04:54,204
+that's gonna be a little tedious for you.
+
+111
+00:04:54,204 --> 00:04:55,705
+But what's more important?
+
+112
+00:04:55,705 --> 00:04:57,017
+What's the cost trade-off?
+
+113
+00:04:57,017 --> 00:04:59,675
+A little tedi-ness in error handling
+
+114
+00:04:59,675 --> 00:05:01,925
+versus integrity, 92%?
+
+115
+00:05:04,267 --> 00:05:05,478
+I could tell you right now
+
+116
+00:05:05,478 --> 00:05:08,206
+that nothing ever can trump integrity.
+
+117
+00:05:08,206 --> 00:05:10,046
+No decision you make,
+
+118
+00:05:10,046 --> 00:05:12,326
+no decision you make
+
+119
+00:05:12,326 --> 00:05:15,326
+can ever have integrity be the cost.
+
+120
+00:05:16,737 --> 00:05:18,507
+And that means error handling
+
+121
+00:05:18,507 --> 00:05:22,205
+must be part of the main
+code that you're writing.
+
+122
+00:05:22,205 --> 00:05:25,766
+Here is that study on the less code.
+
+123
+00:05:25,766 --> 00:05:27,838
+What the average developer does is produce
+
+124
+00:05:27,838 --> 00:05:32,374
+somewhere between 15 and 50
+bugs per thousand lines of code,
+
+125
+00:05:32,374 --> 00:05:35,307
+which means that some
+of the worst developers
+
+126
+00:05:35,307 --> 00:05:39,044
+who don't care about
+integrity might be producing
+
+127
+00:05:39,044 --> 00:05:43,027
+a bug in almost every 20 lines of code.
+
+128
+00:05:43,027 --> 00:05:45,297
+Imagine that, every 20
+lines of code you write,
+
+129
+00:05:45,297 --> 00:05:47,646
+whether you like it or not, is a bug.
+
+130
+00:05:47,646 --> 00:05:50,166
+How do we reduce bugs,
+we gotta write less code.
+
+131
+00:05:50,166 --> 00:05:53,339
+That ties back into integrity.
+
+132
+00:05:53,339 --> 00:05:56,977
+Because when we write
+more code than we need,
+
+133
+00:05:56,977 --> 00:06:00,353
+it results in ugly, large, and slow code.
+
+134
+00:06:00,353 --> 00:06:04,526
+Ugly leaves places for bugs
+to hide, think about it.
+
+135
+00:06:04,526 --> 00:06:07,726
+More code, more places for bugs to be,
+
+136
+00:06:07,726 --> 00:06:09,814
+more places for bugs to hide,
+
+137
+00:06:09,814 --> 00:06:12,966
+because we need so many more tests
+
+138
+00:06:12,966 --> 00:06:15,564
+to get the code coverage
+levels that we need,
+
+139
+00:06:15,564 --> 00:06:17,627
+it becomes almost impossible.
+
+140
+00:06:17,627 --> 00:06:20,331
+And if the code base is growing that much,
+
+141
+00:06:20,331 --> 00:06:22,619
+we're probably starting to hack.
+
+142
+00:06:22,619 --> 00:06:24,561
+We're using shortcuts,
+we're using dirty tricks,
+
+143
+00:06:24,561 --> 00:06:26,171
+to just get things working,
+
+144
+00:06:26,171 --> 00:06:29,030
+which goes back to large,
+which goes back to ugly.
+
+145
+00:06:29,030 --> 00:06:30,705
+This all has to stop.
+
+146
+00:06:30,705 --> 00:06:33,830
+So there is nothing that
+we talk about in this video
+
+147
+00:06:33,830 --> 00:06:36,731
+that ever puts integrity as a cost.
+
+148
+00:06:36,731 --> 00:06:38,771
+Nothing trumps integrity.
+
+149
+00:06:38,771 --> 00:06:40,939
+We have to get serious about it.
+
+150
+00:06:40,939 --> 00:06:43,890
+As we talk and learn
+about Go, you're gonna see
+
+151
+00:06:43,890 --> 00:06:46,019
+how the language puts integrity first.
+
+152
+00:06:46,019 --> 00:06:48,436
+Over and over and over again.
+
+153
+00:06:50,190 --> 00:06:53,715
+Now once we write a piece
+of code that has integrity,
+
+154
+00:06:53,715 --> 00:06:57,668
+then we wanna make sure,
+optimizing for correctness,
+
+155
+00:06:57,668 --> 00:06:59,508
+that that code is readable.
+
+156
+00:06:59,508 --> 00:07:01,750
+Now, what does readability mean?
+
+157
+00:07:01,750 --> 00:07:03,580
+It's another buzzword, and this can change
+
+158
+00:07:03,580 --> 00:07:05,771
+depending on the language
+that we're dealing with.
+
+159
+00:07:05,771 --> 00:07:08,371
+All right, it means that we
+have to structure our systems
+
+160
+00:07:08,371 --> 00:07:12,729
+to be more comprehensible,
+readable, means reliability.
+
+161
+00:07:12,729 --> 00:07:15,793
+But for me, readability means two things.
+
+162
+00:07:15,793 --> 00:07:18,851
+It means that the average
+developer on your team
+
+163
+00:07:18,851 --> 00:07:20,902
+should be able to read that piece of code
+
+164
+00:07:20,902 --> 00:07:24,723
+and have a good understanding
+of what it's doing, logically.
+
+165
+00:07:24,723 --> 00:07:28,558
+And the second part,
+which is really critical,
+
+166
+00:07:28,558 --> 00:07:32,562
+that the code that we write
+does not hide its cost,
+
+167
+00:07:32,562 --> 00:07:35,229
+does hide the cost of its impact
+
+168
+00:07:36,363 --> 00:07:39,643
+on the program, and on the machine.
+
+169
+00:07:39,643 --> 00:07:41,702
+That, to me, is readability.
+
+170
+00:07:41,702 --> 00:07:43,622
+And we can do this in Go, again,
+
+171
+00:07:43,622 --> 00:07:46,622
+because we're writing
+code for a real machine.
+
+172
+00:07:46,622 --> 00:07:47,862
+We can write code
+
+173
+00:07:47,862 --> 00:07:49,953
+that doesn't create
+large abstraction layers
+
+174
+00:07:49,953 --> 00:07:51,942
+that hides the cost of what we're doing.
+
+175
+00:07:51,942 --> 00:07:54,010
+This is what I'm looking
+for in readability.
+
+176
+00:07:54,010 --> 00:07:56,363
+Can the average developer
+understand the logic,
+
+177
+00:07:56,363 --> 00:07:58,651
+and does this code hide cost?
+
+178
+00:07:58,651 --> 00:08:03,283
+Because if it hides cost, this
+is gonna hurt us in the end.
+
+179
+00:08:03,283 --> 00:08:07,358
+Optimizing for correctness
+means readability first.
+
+180
+00:08:07,358 --> 00:08:09,483
+And so Chuck Moore said this,
+
+181
+00:08:09,483 --> 00:08:12,654
+a well-designed language
+has a one-to-one correlation
+
+182
+00:08:12,654 --> 00:08:14,694
+between its source code
+and its object code.
+
+183
+00:08:14,694 --> 00:08:16,345
+It's obvious to the programmer
+
+184
+00:08:16,345 --> 00:08:18,923
+what the code will be
+generated from their source.
+
+185
+00:08:18,923 --> 00:08:21,225
+He's basically saying that
+
+186
+00:08:21,225 --> 00:08:23,454
+a well-designed language
+allows you to have
+
+187
+00:08:23,454 --> 00:08:26,174
+a mental model of what's
+gonna happen on the machine.
+
+188
+00:08:26,174 --> 00:08:30,275
+It allows you to have
+this idea of readability
+
+189
+00:08:30,275 --> 00:08:32,934
+where you can understand the choices
+
+190
+00:08:32,934 --> 00:08:35,534
+and the impacts of your choices.
+
+191
+00:08:35,534 --> 00:08:39,385
+You know, things like constructors
+and operator overloading,
+
+192
+00:08:39,385 --> 00:08:42,963
+these are things that
+hide the cost of code.
+
+193
+00:08:42,963 --> 00:08:45,785
+I could show you a piece
+of code that, in C++,
+
+194
+00:08:45,785 --> 00:08:47,694
+that has constructors and destructors
+
+195
+00:08:47,694 --> 00:08:52,234
+and operator overloads and show
+you some very simple calls.
+
+196
+00:08:52,234 --> 00:08:54,914
+And you will have no clue
+what's going to happen,
+
+197
+00:08:54,914 --> 00:08:57,603
+especially between version
+to version to version to C++.
+
+198
+00:08:57,603 --> 00:08:59,974
+And that's not readable code.
+
+199
+00:08:59,974 --> 00:09:02,385
+Go is not going to allow that.
+
+200
+00:09:02,385 --> 00:09:04,893
+You could somehow do it to yourself,
+
+201
+00:09:04,893 --> 00:09:06,915
+but I'm hopefully gonna show you,
+
+202
+00:09:06,915 --> 00:09:09,763
+not only why you don't wanna do this,
+
+203
+00:09:09,763 --> 00:09:11,459
+but you do this now for yourself.
+
+204
+00:09:11,459 --> 00:09:14,403
+Don't do this, let's go for readability.
+
+205
+00:09:14,403 --> 00:09:18,243
+Let's not hide the cost of the
+decisions that we're making.
+
+206
+00:09:18,243 --> 00:09:21,018
+Now, the next thing is simplicity.
+
+207
+00:09:21,018 --> 00:09:22,995
+I've made it Number Three.
+
+208
+00:09:22,995 --> 00:09:26,363
+But simplicity is really interesting.
+
+209
+00:09:26,363 --> 00:09:28,555
+I want you to think about this.
+
+210
+00:09:28,555 --> 00:09:32,475
+Simplicity is about hiding complexity.
+
+211
+00:09:32,475 --> 00:09:34,544
+Now, think about this for one second.
+
+212
+00:09:34,544 --> 00:09:38,854
+If readability is about
+not hiding the cost
+
+213
+00:09:38,854 --> 00:09:41,854
+of the code or the
+decisions you're making,
+
+214
+00:09:41,854 --> 00:09:44,043
+right, the impact, that's readability.
+
+215
+00:09:44,043 --> 00:09:45,543
+Don't hide, right?
+
+216
+00:09:47,574 --> 00:09:49,993
+And then simplicity
+comes in and says, whoa.
+
+217
+00:09:49,993 --> 00:09:52,145
+Let's hide complexity.
+
+218
+00:09:52,145 --> 00:09:53,891
+When you really think about it,
+
+219
+00:09:53,891 --> 00:09:56,443
+readability and simplicity
+are fighting with each other,
+
+220
+00:09:56,443 --> 00:09:59,683
+aren't they, they're on
+opposite sides of this dynamic.
+
+221
+00:09:59,683 --> 00:10:02,224
+Yet we put them together all the time.
+
+222
+00:10:02,224 --> 00:10:06,583
+And this is what makes simplicity
+so special when it's done.
+
+223
+00:10:06,583 --> 00:10:09,416
+This idea that you hide complexity
+
+224
+00:10:10,334 --> 00:10:13,705
+without losing your ability to understand
+
+225
+00:10:13,705 --> 00:10:15,734
+the cost of your decisions.
+
+226
+00:10:15,734 --> 00:10:17,783
+Go does this all the time.
+
+227
+00:10:17,783 --> 00:10:22,193
+Go is so amazing, it's
+garbage-collector hides
+
+228
+00:10:22,193 --> 00:10:24,631
+the complexity of memory management.
+
+229
+00:10:24,631 --> 00:10:26,894
+Yet, we're gonna be able to know
+
+230
+00:10:26,894 --> 00:10:29,163
+the choices that we make,
+
+231
+00:10:29,163 --> 00:10:31,310
+what effect we're having on the heap.
+
+232
+00:10:31,310 --> 00:10:33,785
+See that, see what I'm saying here?
+
+233
+00:10:33,785 --> 00:10:36,614
+Hiding, you know, we hate
+complexity, simplicity?
+
+234
+00:10:36,614 --> 00:10:39,054
+But we didn't hide the
+cost of our decisions.
+
+235
+00:10:39,054 --> 00:10:41,705
+This is going to happen
+over and over again in Go.
+
+236
+00:10:41,705 --> 00:10:45,084
+So simplicity is not something
+you can get to day one.
+
+237
+00:10:45,084 --> 00:10:48,004
+Readability, optimizing
+for correctness, yes.
+
+238
+00:10:48,004 --> 00:10:50,964
+Simplicity is something
+that comes over time,
+
+239
+00:10:50,964 --> 00:10:54,575
+it comes with refactoring,
+it comes with our ability
+
+240
+00:10:54,575 --> 00:10:57,465
+to prototype, to learn, to understand,
+
+241
+00:10:57,465 --> 00:11:01,132
+and come back and hide
+complexity over time.
+
+242
+00:11:02,385 --> 00:11:06,265
+And so it's something
+that we should strive for,
+
+243
+00:11:06,265 --> 00:11:08,705
+it's something that we wanna get to.
+
+244
+00:11:08,705 --> 00:11:12,872
+But it's not something that
+we can really do day one.
+
+245
+00:11:13,753 --> 00:11:17,086
+Now, the very last thing is performance.
+
+246
+00:11:18,762 --> 00:11:21,524
+And I put it last because there are times
+
+247
+00:11:21,524 --> 00:11:26,004
+when performance is going
+to be your highest priority.
+
+248
+00:11:26,004 --> 00:11:28,153
+You're going to write a piece of code,
+
+249
+00:11:28,153 --> 00:11:29,974
+and it's not gonna be fast enough.
+
+250
+00:11:29,974 --> 00:11:32,185
+This is going to happen.
+
+251
+00:11:32,185 --> 00:11:35,465
+And now, we have to make
+a conscious decision.
+
+252
+00:11:35,465 --> 00:11:37,084
+We're gonna walk away from simplicity,
+
+253
+00:11:37,084 --> 00:11:38,604
+we're gonna walk away from readability.
+
+254
+00:11:38,604 --> 00:11:41,593
+We can never walk away from integrity.
+
+255
+00:11:41,593 --> 00:11:44,924
+But now we might write a
+piece of code that is clever,
+
+256
+00:11:44,924 --> 00:11:47,007
+that is a little complex.
+
+257
+00:11:48,433 --> 00:11:50,516
+But, we have to make sure
+
+258
+00:11:51,953 --> 00:11:55,044
+that we're doing this
+based on measured results.
+
+259
+00:11:55,044 --> 00:11:57,593
+We can never guess about performance.
+
+260
+00:11:57,593 --> 00:11:59,552
+Our measurements must be relevant.
+
+261
+00:11:59,552 --> 00:12:04,484
+We must profile to decide that
+something isn't fast enough.
+
+262
+00:12:04,484 --> 00:12:05,815
+In lessons, as we go on,
+
+263
+00:12:05,815 --> 00:12:08,343
+I'm gonna show you how to do this.
+
+264
+00:12:08,343 --> 00:12:11,322
+I'm gonna show you what happens
+
+265
+00:12:11,322 --> 00:12:15,225
+when you guess or assume
+about performance.
+
+266
+00:12:15,225 --> 00:12:17,793
+Performance is not, it's
+about not wasting effort.
+
+267
+00:12:17,793 --> 00:12:20,884
+Not your effort, not
+an algorithm's effort.
+
+268
+00:12:20,884 --> 00:12:24,196
+Okay, it's about being
+mechanically sympathetic.
+
+269
+00:12:24,196 --> 00:12:26,665
+Mechanical sympathy means that
+
+270
+00:12:26,665 --> 00:12:29,049
+if performance matters, then,
+
+271
+00:12:29,049 --> 00:12:32,073
+how code runs on the machine must matter,
+
+272
+00:12:32,073 --> 00:12:35,815
+because as we already
+said, it is the machine
+
+273
+00:12:35,815 --> 00:12:40,584
+that will dictate how the
+performance of our software goes.
+
+274
+00:12:40,584 --> 00:12:43,025
+We can fight the machine.
+
+275
+00:12:43,025 --> 00:12:45,535
+I don't care what language
+you're using at that point.
+
+276
+00:12:45,535 --> 00:12:47,095
+You're not gonna see the performance.
+
+277
+00:12:47,095 --> 00:12:49,842
+Or we can be sympathetic with the machine.
+
+278
+00:12:49,842 --> 00:12:52,255
+Go allows us to be sympathetic.
+
+279
+00:12:52,255 --> 00:12:54,564
+In fact, you don't even realize it,
+
+280
+00:12:54,564 --> 00:12:58,244
+but if you follow just even
+some of the language idioms,
+
+281
+00:12:58,244 --> 00:13:00,564
+they're pushing you towards
+mechanical sympathy.
+
+282
+00:13:00,564 --> 00:13:02,796
+They're pushing you in
+the right direction.
+
+283
+00:13:02,796 --> 00:13:05,465
+Nothing in Go is magic.
+
+284
+00:13:05,465 --> 00:13:09,295
+It's just good, sound,
+engineering principles.
+
+285
+00:13:09,295 --> 00:13:11,735
+It's good design and philosophy
+
+286
+00:13:11,735 --> 00:13:15,818
+that when we follow, we
+get to take advantage of.
+
+287
+00:13:16,825 --> 00:13:20,324
+So that's it for preparing our minds.
+
+288
+00:13:20,324 --> 00:13:23,420
+Everything that I do, moving forward,
+
+289
+00:13:23,420 --> 00:13:26,340
+is gonna be built around integrity,
+
+290
+00:13:26,340 --> 00:13:28,340
+readability, simplicity,
+
+291
+00:13:29,375 --> 00:13:30,876
+and then performance.
+
+292
+00:13:30,876 --> 00:13:34,764
+It's gonna be built around
+optimizing for correctness.
+
+293
+00:13:34,764 --> 00:13:37,895
+It's gonna be built around productivity.
+
+294
+00:13:37,895 --> 00:13:40,044
+These are the things that matter.
+
+295
+00:13:40,044 --> 00:13:43,133
+These are the things
+that must matter to us.
+
+296
+00:13:43,133 --> 00:13:44,996
+And I want to show you,
+
+297
+00:13:44,996 --> 00:13:46,495
+not tell you,
+
+298
+00:13:46,495 --> 00:13:49,345
+I wanna show you so you
+do this for yourself,
+
+299
+00:13:49,345 --> 00:13:51,634
+how special this language is
+
+300
+00:13:51,634 --> 00:13:54,073
+when it comes to these things.
+
